@@ -69,6 +69,27 @@ const LikedTracksList = () => {
                     <span className="track_artists">Тринадцать карат, Три дня дождя</span>
                 </div>
             </div>
+            <div className="mt-3 liked_track_list_item d-flex">
+                <img src={img} alt="обложка"/>
+                <div className="liked_track_list_item_info d-flex flex-column">
+                    <span className="track_title">Больше не буду</span>
+                    <span className="track_artists">Тринадцать карат, Три дня дождя</span>
+                </div>
+            </div>
+            <div className="mt-3 liked_track_list_item d-flex">
+                <img src={img} alt="обложка"/>
+                <div className="liked_track_list_item_info d-flex flex-column">
+                    <span className="track_title">Больше не буду</span>
+                    <span className="track_artists">Тринадцать карат, Три дня дождя</span>
+                </div>
+            </div>
+            <div className="mt-3 liked_track_list_item d-flex">
+                <img src={img} alt="обложка"/>
+                <div className="liked_track_list_item_info d-flex flex-column">
+                    <span className="track_title">Больше не буду</span>
+                    <span className="track_artists">Тринадцать карат, Три дня дождя</span>
+                </div>
+            </div>
         </div>
     )
 }

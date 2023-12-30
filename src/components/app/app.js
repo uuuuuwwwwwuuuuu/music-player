@@ -7,7 +7,7 @@ import './app.scss';
 export default class App extends Component {
     render() {
         return (
-            <div className="d-flex flex-column justify-content-between app">
+            <div className="d-flex flex-column justify-content-between">
                 <div className="d-flex justify-content-between app">
                     <AsideBar />
                     <Main />

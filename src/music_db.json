@@ -1,0 +1,26 @@
+[
+    {
+        "title": "Больше не буду",
+        "artists": "Тринадцать карат, Три дня дождя",
+        "albumImg": "./albumsImg/13prichin.jpg",
+        "music": "./music/Trinadcat_karat_Tri_dnya_dozhdya_Bolshe_ne_budu.mp3"
+    },
+    {
+        "title": "Отпусти",
+        "artists": "Тима Беларуских",
+        "albumImg": "./albumsImg/otpusti.jpg",
+        "music": "./music/otpusti.mp3"
+    },
+    {
+        "title": "Навсегда",
+        "artists": "Nikitata",
+        "albumImg": "./albumsImg/navsegda.jpeg",
+        "music": "./music/navsegda.mp3"
+    }, 
+    {
+        "title": "Не слезай",
+        "artists": "Гнилая Лирика",
+        "albumImg": "./albumsImg/ne-slezai.jpeg",
+        "music": "./music/ne-slezai.mp3"
+    }
+]

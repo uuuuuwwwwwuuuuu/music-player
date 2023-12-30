@@ -1,0 +1,24 @@
+.left {
+    background-color: aqua;
+    width: 360px;
+    height: 100%;
+}
+
+.right {
+    background-color: aquamarine;
+    flex: 1 1 500px;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    width: 100%;
+    height: 100vh;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+}
+

@@ -1,6 +1,6 @@
 .liked_track_list {
     margin-top: 1rem;
-    height: 471px;
+    max-height: 465px;
     overflow: scroll;
     cursor: pointer;
 
@@ -18,4 +18,23 @@
 .track_artists {
     font-size: 1.4rem;
     font-weight: 400;
+    opacity: 0.7;
+    transition: 0.2s all ease;
+    
+    @media (hover:hover) {
+        &:hover {
+            color: #E62C36;
+            opacity: 1;
+        }
+    }    
+}
+
+.liked_track_list_item {
+    transition: 0.2s all ease;
+    
+    @media (hover:hover) {
+        &:hover {
+            transform: translateX(5px);
+        }
+    }
 }

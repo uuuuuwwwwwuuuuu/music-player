@@ -5,7 +5,7 @@ import LikedTracksList from "../likedTracksList/likedTracksList";
 export default class InfoBar extends Component {
     render() {
         return (
-            <div className="info_bar">
+            <div className="info_bar d-flex flex-column justify-content-between">
                 <div className="info_bar_container">
                     <div className="info_bar_my_music">
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
