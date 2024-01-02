@@ -73,9 +73,9 @@
 
         &_bar {
             height: 3px;
-            width: 30%;
             background-color: #fff;
             display: flex;
+            width: 0;
             justify-content: flex-end;
         }
 
@@ -96,5 +96,13 @@
                 opacity: 1;
             }
         }
+    }
+
+    .disable {
+        display: none;
+    }
+
+    .active {
+        fill: #E62C36;
     }
 }

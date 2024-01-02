@@ -6,6 +6,8 @@ export default class PlaySelection extends Component {
     state = {
         id: 0,
         data: null,
+        isPlay: false,
+        isRepeat: false,
     }
 
     componentDidMount() {
@@ -17,7 +19,11 @@ export default class PlaySelection extends Component {
         const {id} = this.props;
         if (id !== prevProps.id && id !== undefined) {
             this.setState({id});
+            this.setState({isPlay: true});
         }
+
+        this.togglePlayTrack();        
+        this.onRepeat();
     }
 
     renderTrackInfo() {
@@ -48,6 +54,8 @@ export default class PlaySelection extends Component {
 
             return {id: newId}
         });
+
+        document.querySelector('.music_progress_bar').style.width = '0'
     }
 
     nextTrack = () => {
@@ -65,13 +73,59 @@ export default class PlaySelection extends Component {
                 id: newId
             }
         })
+        document.querySelector('.music_progress_bar').style.width = '0'
+    }
+
+    changeIsPlay = () => {
+        this.setState(({isPlay}) => {
+            return {isPlay: !isPlay}
+        });
+    }
+    
+    toggleIsRepeat = () => {
+        this.setState(({isRepeat}) => {
+            return {isRepeat: !isRepeat}
+        })
+    }
+
+    togglePlayTrack = () => {
+        const song = document.querySelector('audio');
+        this.state.isPlay ? song.play() : song.pause();
+    }
+
+    changeProgressBar = () => {
+        const {duration, currentTime} = document.querySelector('audio');
+        const progress = (currentTime / duration) * 100;
+
+        document.querySelector('.music_progress_bar').style.width = `${progress}%`
+    }
+
+    setWidthOfProgressBar = (e) => {
+        const song = document.querySelector('audio');
+        const clientWidth = document.querySelector('.music_progress').clientWidth;
+        const clickX = e.nativeEvent.offsetX;
+        
+        song.currentTime = (clickX / clientWidth) * song.duration;
+        console.log(clientWidth);
+    }
+
+    onRepeat() {
+        if (this.state.isRepeat) {
+            document.querySelector('audio').loop = true;
+        } else {
+            document.querySelector('audio').loop = false;
+        }
     }
 
     render() {
-        const {data, id} = this.state
+        const {data, id, isPlay, isRepeat} = this.state
         const leftElements = data ? this.renderTrackInfo() : null;
         const url = data ? data[id].music : null;
-        // console.log(id)
+
+        const disablePlayClass = isPlay ? 'disable' : null;
+        const disablePauseClass = !isPlay ? 'disable' : null;
+        const activeRepeatClass = isRepeat ? 'active' : null
+
         return (
             <div className="play_selection">
                 <div className="left_elements">
@@ -94,8 +148,19 @@ export default class PlaySelection extends Component {
                         </clipPath>
                         </defs>
                         </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="18" viewBox="0 0 15 18">
-                        <path d="M15 9L0 17.6603L0 0.339746L15 9Z"/>
+                        <svg onClick={this.changeIsPlay} className={disablePlayClass} xmlns="http://www.w3.org/2000/svg" width="16" height="20" viewBox="0 0 13 16" fill="none">
+                        <path d="M12 6.26795C13.3333 7.03775 13.3333 8.96225 12 9.73205L3 14.9282C1.66667 15.698 0 14.7358 0 13.1962L0 2.80385C0 1.26425 1.66667 0.301996 3 1.0718L12 6.26795Z"/>
+                        </svg>
+                        <svg onClick={this.changeIsPlay} className={disablePauseClass} xmlns="http://www.w3.org/2000/svg" width="16" height="20" viewBox="0 0 16 20">
+                        <g clipPath="url(#clip0_64_2)">
+                            <rect width="5" height="20" rx="2"/>
+                            <rect x="11" width="5" height="20" rx="2"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_64_2">
+                            <rect width="16" height="20"/>
+                            </clipPath>
+                        </defs>
                         </svg>
                         <svg onClick={this.nextTrack} xmlns="http://www.w3.org/2000/svg" width="21" height="15" viewBox="0 0 21 15">
                         <g clipPath="url(#clip0_47_2)">
@@ -109,16 +174,16 @@ export default class PlaySelection extends Component {
                         </clipPath>
                         </defs>
                         </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
+                        <svg onClick={this.toggleIsRepeat} className={activeRepeatClass} xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
                         <path d="M1.59998 12C1.59998 14.1968 3.4031 16 5.59998 16H12.7L11.55 17.15L12.6875 18.275L15.7625 15.2L12.6875 12.125L11.5625 13.25L12.7 14.4H5.59998C4.27654 14.4 3.19998 13.3234 3.19998 12V7.59996H1.59998V12ZM4.23748 4.79996L7.32498 7.88746L8.44998 6.74996L7.29998 5.59996H14.4C15.7234 5.59996 16.8 6.67653 16.8 7.99996V12.4H18.4V7.99996C18.4 5.80309 16.5969 3.99996 14.4 3.99996H7.29998L8.44998 2.84996L7.31248 1.72496L4.23748 4.79996Z"/>
                         </svg>
                     </div>
-                    <div className="music_progress">
+                    <div onClick={this.setWidthOfProgressBar} className="music_progress">
                         <div className="music_progress_bar">
                             <div className="music_progress_circle"></div>
                         </div>
                     </div>
-                    <audio src={url}/>
+                    <audio onTimeUpdate={this.changeProgressBar} src={url}/>
                 </div>
             </div>
         )
