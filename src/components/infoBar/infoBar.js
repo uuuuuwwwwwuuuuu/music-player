@@ -3,9 +3,19 @@ import './infoBar.scss';
 import LikedTracksList from "../likedTracksList/likedTracksList";
 
 export default class InfoBar extends Component {
+    state = {
+        height: 0
+    }
+
+    componentDidMount() {
+        const height = document.querySelector('.info_bar_container_track_list').clientHeight
+        this.setState({height});
+    }
+
     render() {
+        const {onSelect} = this.props
         return (
-            <div className="info_bar d-flex flex-column justify-content-between">
+            <div className="info_bar d-flex flex-column justify-content-start">
                 <div className="info_bar_container">
                     <div className="info_bar_my_music">
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
@@ -19,8 +29,8 @@ export default class InfoBar extends Component {
                     <button className="info_button">Плейлисты</button>           
                     <button className="info_button">Артисты</button>             
                 </div>
-                <div className="info_bar_container">
-                    <LikedTracksList />
+                <div className="info_bar_container_track_list">
+                    <LikedTracksList height={this.state.height} onSelect={onSelect}/>
                 </div>
             </div>
         )

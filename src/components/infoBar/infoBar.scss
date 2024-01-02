@@ -3,16 +3,22 @@
     font-size: 1.6rem;
     font-weight: 700;
     max-width: 36rem;
-    height: 100%;
     background-color: #091E2A;
     border-radius: 14px;
     margin-top: 1rem;
     padding: 1.2rem 0;
+    flex: 1 1 300px;
 
     &_container {
         margin: 0 3rem;
         height: max-content;
         width: 30rem;
+    }
+
+    &_container_track_list {
+        margin: 0 3rem;
+        width: 30rem;
+        flex: 1 1 300px;
     }
 
     svg {

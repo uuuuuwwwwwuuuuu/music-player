@@ -3,11 +3,11 @@ import './asideBar.scss';
 import NavPanel from "../navPanel/navPanel";
 import InfoBar from "../infoBar/infoBar";
 
-const AsideBar = () => {
+const AsideBar = ({onSelect}) => {
     return (
-        <div className="aside_bar">
+        <div className="aside_bar d-flex flex-column">
             <NavPanel />
-            <InfoBar />
+            <InfoBar onSelect={onSelect}/>
         </div>
     )
 }

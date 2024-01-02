@@ -1,8 +1,6 @@
 .liked_track_list {
     margin-top: 1rem;
-    max-height: 465px;
     overflow: scroll;
-    cursor: pointer;
 
     img {
         width: 45px;
@@ -31,6 +29,7 @@
 
 .liked_track_list_item {
     transition: 0.2s all ease;
+    cursor: pointer;
     
     @media (hover:hover) {
         &:hover {

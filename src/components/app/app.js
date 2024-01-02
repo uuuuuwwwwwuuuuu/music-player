@@ -5,14 +5,22 @@ import PlaySelection from "../playSelection/playSelection";
 import './app.scss';
 
 export default class App extends Component {
+    state = {
+        trackId: 0
+    }
+
+    onSelectTrack = (id) => {
+        this.setState({id});
+    } 
+
     render() {
         return (
-            <div className="d-flex flex-column justify-content-between">
+            <div className="d-flex flex-column justify-content-between app_wrapper">
                 <div className="d-flex justify-content-between app">
-                    <AsideBar />
+                    <AsideBar onSelect={this.onSelectTrack}/>
                     <Main />
                 </div>
-                <PlaySelection />
+                <PlaySelection id={this.state.id} />
             </div>
         )
     }
