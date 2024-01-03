@@ -6,13 +6,22 @@ export default class PlaySelection extends Component {
     state = {
         id: 0,
         data: null,
+        randomData: null,
         isPlay: false,
         isRepeat: false,
+        isRandom: false
     }
 
     componentDidMount() {
         getData()
-            .then(data => this.setState({data}));
+            .then(data => {
+                this.setState({data});
+                this.setState(({data}) => {
+                    const newArr = [...data];
+                    this.shuffle(newArr);
+                    return {randomData: newArr};
+                })
+            });
     }
 
     componentDidUpdate(prevProps) {
@@ -27,8 +36,8 @@ export default class PlaySelection extends Component {
     }
 
     renderTrackInfo() {
-        const {data, id} = this.state;
-        const dataObj = data[id];
+        const {id, data, randomData, isRandom} = this.state;
+        const dataObj = isRandom ? randomData[id] : data[id];
 
         return (
             <>
@@ -78,13 +87,21 @@ export default class PlaySelection extends Component {
 
     changeIsPlay = () => {
         this.setState(({isPlay}) => {
-            return {isPlay: !isPlay}
+            return {isPlay: !isPlay};
         });
     }
     
     toggleIsRepeat = () => {
         this.setState(({isRepeat}) => {
-            return {isRepeat: !isRepeat}
+            return {isRepeat: !isRepeat};
+        });
+
+        this.onRandom();
+    }
+
+    toggleIsRandom = () => {
+        this.setState(({isRandom}) => {
+            return {isRandom: !isRandom};
         })
     }
 
@@ -106,7 +123,6 @@ export default class PlaySelection extends Component {
         const clickX = e.nativeEvent.offsetX;
         
         song.currentTime = (clickX / clientWidth) * song.duration;
-        console.log(clientWidth);
     }
 
     onRepeat() {
@@ -117,14 +133,28 @@ export default class PlaySelection extends Component {
         }
     }
 
+    shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+
     render() {
-        const {data, id, isPlay, isRepeat} = this.state
-        const leftElements = data ? this.renderTrackInfo() : null;
-        const url = data ? data[id].music : null;
+        const {data, randomData, id, isPlay, isRepeat, isRandom} = this.state;
+        let leftElements = null;
+        let url = null;
+        if (data) {
+            leftElements = this.renderTrackInfo();
+            url = isRandom ? randomData[id].music : data[id].music;
+        }
 
         const disablePlayClass = isPlay ? 'disable' : null;
         const disablePauseClass = !isPlay ? 'disable' : null;
-        const activeRepeatClass = isRepeat ? 'active' : null
+        const activeRepeatClass = isRepeat ? 'active' : null;
+        const activeRandomClass = isRandom ? 'active' : null;
 
         return (
             <div className="play_selection">
@@ -133,7 +163,7 @@ export default class PlaySelection extends Component {
                 </div>
                 <div className="right_elements">
                     <div className="music_controllers">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
+                        <svg onClick={this.toggleIsRandom} className={activeRandomClass} xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
                         <path d="M15.2246 7.03656C15.461 7.24933 15.7447 7.36753 16.0284 7.36753C16.3357 7.36753 16.6667 7.24933 16.8794 6.98928L20 3.67959L16.9031 0.369897C16.4539 -0.102917 15.6974 -0.126557 15.2246 0.322615C14.7518 0.771788 14.7281 1.52829 15.1773 2.0011L15.6501 2.49756C14.0662 2.56848 12.5768 3.2777 11.513 4.43609L9.55083 6.63467L7.58865 4.45973C6.4539 3.20678 4.86998 2.49756 3.19149 2.49756H1.18203C0.520095 2.49756 0 3.01765 0 3.67959C0 4.34153 0.520095 4.86162 1.18203 4.86162H3.19149C4.1844 4.86162 5.15366 5.28715 5.8156 6.04366L7.94326 8.40772L5.8156 10.7718C5.15366 11.5283 4.1844 11.9538 3.19149 11.9538H1.18203C0.520095 11.9538 0 12.4739 0 13.1359C0 13.7978 0.520095 14.3179 1.18203 14.3179H3.19149C4.86998 14.3179 6.4539 13.6087 7.58865 12.3557L9.55083 10.1808L11.513 12.3557C12.5768 13.5377 14.0662 14.247 15.6501 14.2942L15.1773 14.7907C14.7281 15.2635 14.7518 16.02 15.2246 16.4692C15.461 16.682 15.7447 16.8002 16.0284 16.8002C16.3357 16.8002 16.6667 16.682 16.8794 16.4219L20 13.1122L16.9031 9.82616C16.4539 9.35335 15.6974 9.32971 15.2246 9.77888C14.7518 10.2281 14.7281 10.9846 15.1773 11.4574L15.6265 11.9302C14.7281 11.8593 13.8771 11.4574 13.2624 10.7718L11.1348 8.40772L13.2624 6.04366C13.8771 5.35808 14.7281 4.95618 15.6265 4.88526L15.1773 5.35808C14.7518 5.83089 14.7518 6.58739 15.2246 7.03656Z"/>
                         </svg>
                         <svg onClick={this.prevTrack} xmlns="http://www.w3.org/2000/svg" width="21" height="15" viewBox="0 0 21 15">
@@ -183,7 +213,7 @@ export default class PlaySelection extends Component {
                             <div className="music_progress_circle"></div>
                         </div>
                     </div>
-                    <audio onTimeUpdate={this.changeProgressBar} src={url}/>
+                    <audio onTimeUpdate={this.changeProgressBar} onEnded={this.nextTrack} src={url}/>
                 </div>
             </div>
         )
