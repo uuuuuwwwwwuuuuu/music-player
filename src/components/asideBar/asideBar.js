@@ -7,7 +7,7 @@ const AsideBar = ({onSelect}) => {
     return (
         <div className="aside_bar d-flex flex-column">
             <NavPanel />
-            <InfoBar onSelect={onSelect}/>
+            <InfoBar playList={false} onSelect={onSelect} buttonsBool={true} blockText='Моя музыка'/>
         </div>
     )
 }

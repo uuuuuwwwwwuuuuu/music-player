@@ -9,7 +9,8 @@ export default class PlaySelection extends Component {
         randomData: null,
         isPlay: false,
         isRepeat: false,
-        isRandom: false
+        isRandom: false,
+        showPlayList: false
     }
 
     componentDidMount() {
@@ -95,8 +96,6 @@ export default class PlaySelection extends Component {
         this.setState(({isRepeat}) => {
             return {isRepeat: !isRepeat};
         });
-
-        this.onRandom();
     }
 
     toggleIsRandom = () => {
@@ -108,6 +107,12 @@ export default class PlaySelection extends Component {
     togglePlayTrack = () => {
         const song = document.querySelector('audio');
         this.state.isPlay ? song.play() : song.pause();
+    }
+
+    toggleShowPlayList = () => {
+        this.setState(({showPlayList}) => {
+            return {showPlayList: !showPlayList}
+        });
     }
 
     changeProgressBar = () => {
@@ -143,18 +148,21 @@ export default class PlaySelection extends Component {
 
 
     render() {
-        const {data, randomData, id, isPlay, isRepeat, isRandom} = this.state;
+        const {data, randomData, id, isPlay, isRepeat, isRandom, showPlayList} = this.state;
         let leftElements = null;
         let url = null;
+        console.log(isRepeat);
         if (data) {
             leftElements = this.renderTrackInfo();
             url = isRandom ? randomData[id].music : data[id].music;
         }
 
-        const disablePlayClass = isPlay ? 'disable' : null;
-        const disablePauseClass = !isPlay ? 'disable' : null;
-        const activeRepeatClass = isRepeat ? 'active' : null;
-        const activeRandomClass = isRandom ? 'active' : null;
+        const disablePlayClass = isPlay ? 'disable' : '';
+        const disablePauseClass = !isPlay ? 'disable' : '';
+        const activeRepeatClass = isRepeat ? 'active' : '';
+        const activeRandomClass = isRandom ? 'active' : '';
+        const disableShowPlayListClass = !showPlayList ? 'disable' : '';
+        const activeShowPlayListClass = showPlayList ? 'disable' : '';
 
         return (
             <div className="play_selection">
@@ -208,6 +216,35 @@ export default class PlaySelection extends Component {
                         <path d="M1.59998 12C1.59998 14.1968 3.4031 16 5.59998 16H12.7L11.55 17.15L12.6875 18.275L15.7625 15.2L12.6875 12.125L11.5625 13.25L12.7 14.4H5.59998C4.27654 14.4 3.19998 13.3234 3.19998 12V7.59996H1.59998V12ZM4.23748 4.79996L7.32498 7.88746L8.44998 6.74996L7.29998 5.59996H14.4C15.7234 5.59996 16.8 6.67653 16.8 7.99996V12.4H18.4V7.99996C18.4 5.80309 16.5969 3.99996 14.4 3.99996H7.29998L8.44998 2.84996L7.31248 1.72496L4.23748 4.79996Z"/>
                         </svg>
                     </div>
+                    <svg onClick={this.toggleShowPlayList} className={'play_list_toggle_btn ' + activeShowPlayListClass} xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                    <g clipPath="url(#clip0_67_10)">
+                        <rect y="2" width="9" height="2" rx="1"/>
+                        <rect y="6" width="9" height="2" rx="1"/>
+                        <rect y="10" width="19" height="2" rx="1"/>
+                        <rect y="14" width="19" height="2" rx="1"/>
+                        <path d="M17.5 3.63397C18.1667 4.01887 18.1667 4.98113 17.5 5.36603L12.25 8.39711C11.5833 8.78201 10.75 8.30089 10.75 7.53109V1.46891C10.75 0.699111 11.5833 0.217986 12.25 0.602886L17.5 3.63397Z"/>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_67_10">
+                        <rect width="19" height="16" fill="white"/>
+                        </clipPath>
+                    </defs>
+                    </svg>
+                    <svg onClick={this.toggleShowPlayList} className={'play_list_toggle_btn ' + disableShowPlayListClass} xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16">
+                    <g clipPath="url(#clip0_67_670)">
+                        <rect y="2" width="9" height="2" rx="1"/>
+                        <rect x="11" y="6.36401" width="9" height="2" rx="1" transform="rotate(-45 11 6.36401)" />
+                        <rect x="12.4142" width="9" height="2" rx="1" transform="rotate(45 12.4142 0)"/>
+                        <rect y="6" width="9" height="2" rx="1"/>
+                        <rect y="10" width="19" height="2" rx="1"/>
+                        <rect y="14" width="19" height="2" rx="1"/>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_67_670">
+                        <rect width="19" height="16"/>
+                        </clipPath>
+                    </defs>
+                    </svg>
                     <div onClick={this.setWidthOfProgressBar} className="music_progress">
                         <div className="music_progress_bar">
                             <div className="music_progress_circle"></div>

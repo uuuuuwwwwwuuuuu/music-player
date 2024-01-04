@@ -3,6 +3,7 @@ import AsideBar from "../asideBar/asideBar";
 import Main from "../main/main";
 import PlaySelection from "../playSelection/playSelection";
 import './app.scss';
+import PlayList from "../playList/playList";
 
 export default class App extends Component {
     state = {
@@ -19,6 +20,7 @@ export default class App extends Component {
                 <div className="d-flex justify-content-between app">
                     <AsideBar onSelect={this.onSelectTrack}/>
                     <Main />
+                    <PlayList onSelect={this.onSelectTrack}/>
                 </div>
                 <PlaySelection id={this.state.id} />
             </div>

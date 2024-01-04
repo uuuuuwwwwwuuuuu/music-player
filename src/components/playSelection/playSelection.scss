@@ -47,20 +47,31 @@
     margin-top: 5px;
 
     flex: 0 1 70%;
-    svg {
-        fill: white;
-        cursor: pointer;
-
-        transition: 0.2s all ease;
-
-        &:not(:last-child) {
-            margin-right: 25px;
+    
+    .music_controllers {
+        svg {
+            fill: white;
+            cursor: pointer;
+    
+            transition: 0.2s all ease;
+    
+            &:not(:last-child) {
+                margin-right: 25px;
+            }
+    
+            @media (hover:hover) {
+                &:hover {
+                    fill: #E62C36;
+                }
+            }
         }
 
-        @media (hover:hover) {
-            &:hover {
-                fill: #E62C36;
-            }
+        .disable {
+            display: none;
+        }
+    
+        .active {
+            fill: #E62C36;
         }
     }
 
@@ -100,11 +111,19 @@
         }
     }
 
-    .disable {
-        display: none;
-    }
 
-    .active {
-        fill: #E62C36;
+    .play_list_toggle_btn {
+        position: absolute;
+        right: 55px;
+        bottom: 55px;
+        fill: white;
+        cursor: pointer;
+        transition: 0.2s all ease;
+
+        @media (hover:hover) {
+            &:hover {
+                fill: #E62C36;
+            }
+        }
     }
 }
