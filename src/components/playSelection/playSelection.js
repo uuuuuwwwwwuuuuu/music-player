@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import './playSelection.scss';
-import getData from "../service/getData";
 
 export default class PlaySelection extends Component {
     state = {
@@ -14,25 +13,20 @@ export default class PlaySelection extends Component {
     }
 
     componentDidMount() {
-        getData()
-            .then(data => {
-                this.setState({data});
-                this.setState(({data}) => {
-                    const newArr = [...data];
-                    this.shuffle(newArr);
-                    this.props.getRandomData(newArr);
-                    return {randomData: newArr};
-                });
-            });
         document.addEventListener('keydown', (e) => this.keyHandler(e));
     }
 
     componentDidUpdate(prevProps) {
-        const {id} = this.props;
+        const {id, data, randomData} = this.props;
         if (id !== prevProps.id && id !== undefined) {
             this.setState({id});
             this.setState({isPlay: true});
         } 
+
+        if (data !== prevProps.data) {
+            this.setState({data});
+            this.setState({randomData});
+        }
 
         this.togglePlayTrack();        
         this.onRepeat();
@@ -181,15 +175,6 @@ export default class PlaySelection extends Component {
             document.querySelector('audio').loop = false;
         }
     }
-
-    shuffle(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            let j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
-    }
-
 
     render() {
         const {data, randomData, id, isPlay, isRepeat, isRandom, showPlayList} = this.state;

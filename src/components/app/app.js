@@ -4,13 +4,35 @@ import Main from "../main/main";
 import PlaySelection from "../playSelection/playSelection";
 import './app.scss';
 import PlayList from "../playList/playList";
+import getData from "../service/getData";
 
 export default class App extends Component {
     state = {
         trackId: 0,
+        data: null,
         showPlayList: null,
         randomData: null,
         isRandom: false
+    }
+    
+    componentDidMount() {
+        getData()
+            .then(data => {
+                this.setState({data});
+                this.setState(({data}) => {
+                    const newArr = [...data];
+                    this.shuffle(newArr);
+                    return {randomData: newArr};
+                });
+            });
+    }
+
+    shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
     }
 
     onSelectTrack = (id) => {
@@ -21,31 +43,33 @@ export default class App extends Component {
         this.setState({showPlayList});
     }
 
-    getRandomData = (randomData) => {
-        this.setState({randomData});
-    }
-
     getIsRandom = (isRandom) => {
         this.setState({isRandom});
     }
 
     render() {
+        const {showPlayList, data, randomData, isRandom, id} = this.state
         return (
             <div className="d-flex flex-column justify-content-between app_wrapper">
                 <div className="d-flex justify-content-between app">
-                    <AsideBar showPlayList={this.state.showPlayList} onSelect={this.onSelectTrack}/>
-                    <Main showPlayList={this.state.showPlayList}/>
+                    <AsideBar 
+                        showPlayList={showPlayList} 
+                        onSelect={this.onSelectTrack}
+                        data={data}/>
+                    <Main showPlayList={showPlayList}/>
                     <PlayList 
-                    onSelect={this.onSelectTrack} 
-                    showPlayList={this.state.showPlayList} 
-                    randomData={this.state.randomData}
-                    isRandom={this.state.isRandom}/>
+                        onSelect={this.onSelectTrack} 
+                        showPlayList={showPlayList} 
+                        randomData={randomData}
+                        data={data}
+                        isRandom={isRandom}/>
                 </div>
                 <PlaySelection 
-                    getIsRandom={this.getIsRandom} 
-                    getRandomData={this.getRandomData} 
+                    data={data}
+                    randomData={randomData}
                     showPlayList={this.onShowPlayList} 
-                    id={this.state.id} />
+                    id={id}
+                    getIsRandom={this.getIsRandom} />
             </div>
         )
     }
