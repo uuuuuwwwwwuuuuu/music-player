@@ -1,8 +1,9 @@
 import React from "react";
 import './main.scss'
 
-const Main = () => {
-    return <div className="main"></div>
+const Main = ({showPlayList}) => {
+    const classList = showPlayList ? 'main blur' : 'main';
+    return <div className={classList}></div>
 }
 
 export default Main;

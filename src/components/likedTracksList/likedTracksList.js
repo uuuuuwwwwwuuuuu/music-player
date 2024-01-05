@@ -4,7 +4,8 @@ import getData from "../service/getData";
 
 export default class LikedTracksList extends Component {
     state = {
-        data: []
+        data: [],
+        randomData: null
     }
     
     componentDidMount() {

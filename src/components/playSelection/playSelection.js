@@ -20,9 +20,11 @@ export default class PlaySelection extends Component {
                 this.setState(({data}) => {
                     const newArr = [...data];
                     this.shuffle(newArr);
+                    this.props.getRandomData(newArr);
                     return {randomData: newArr};
-                })
+                });
             });
+        document.addEventListener('keydown', (e) => this.keyHandler(e));
     }
 
     componentDidUpdate(prevProps) {
@@ -30,10 +32,40 @@ export default class PlaySelection extends Component {
         if (id !== prevProps.id && id !== undefined) {
             this.setState({id});
             this.setState({isPlay: true});
-        }
+        } 
 
         this.togglePlayTrack();        
         this.onRepeat();
+    }
+
+    keyHandler(event) {
+        switch (event.code) {
+            case "Space":
+                this.changeIsPlay();
+                break;
+            case "ArrowRight":
+                this.rewindForward();
+                break;
+            case "ArrowLeft":
+                this.rewind();
+                break;
+            case "KeyR":
+                this.toggleIsRepeat();
+                break;
+            case "KeyD":
+                this.nextTrack();
+                break;
+            case "KeyA":
+                this.prevTrack();
+                break;
+            case "KeyN":
+                this.toggleIsRandom();
+                break;
+            case 'KeyP':
+                this.toggleShowPlayList();
+                break;
+            default: return null;
+        }
     }
 
     renderTrackInfo() {
@@ -101,7 +133,8 @@ export default class PlaySelection extends Component {
     toggleIsRandom = () => {
         this.setState(({isRandom}) => {
             return {isRandom: !isRandom};
-        })
+        });
+        
     }
 
     togglePlayTrack = () => {
@@ -109,10 +142,21 @@ export default class PlaySelection extends Component {
         this.state.isPlay ? song.play() : song.pause();
     }
 
+    rewindForward() {
+        const song = document.querySelector('audio');
+        song.currentTime = song.currentTime + 5;
+    }
+
+    rewind() {
+        const song = document.querySelector('audio');
+        song.currentTime = song.currentTime - 5;
+    }
+
     toggleShowPlayList = () => {
         this.setState(({showPlayList}) => {
             return {showPlayList: !showPlayList}
         });
+        this.props.showPlayList(!this.state.showPlayList);
     }
 
     changeProgressBar = () => {
@@ -151,7 +195,6 @@ export default class PlaySelection extends Component {
         const {data, randomData, id, isPlay, isRepeat, isRandom, showPlayList} = this.state;
         let leftElements = null;
         let url = null;
-        console.log(isRepeat);
         if (data) {
             leftElements = this.renderTrackInfo();
             url = isRandom ? randomData[id].music : data[id].music;

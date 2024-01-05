@@ -2,4 +2,10 @@
     width: 360px;
     height: 100%;
     margin-right: 10px;
+    transition: 0.5s all ease;
+    filter: blur(0px);
+}
+
+.blur {
+    filter: blur(4px);
 }

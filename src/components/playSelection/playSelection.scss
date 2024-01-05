@@ -65,10 +65,6 @@
                 }
             }
         }
-
-        .disable {
-            display: none;
-        }
     
         .active {
             fill: #E62C36;
@@ -126,4 +122,8 @@
             }
         }
     }
+}
+
+.disable {
+    display: none;
 }
