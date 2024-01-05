@@ -134,7 +134,7 @@ export default class PlaySelection extends Component {
         this.setState(({isRandom}) => {
             return {isRandom: !isRandom};
         });
-        
+        this.props.getIsRandom(!this.state.isRandom);
     }
 
     togglePlayTrack = () => {

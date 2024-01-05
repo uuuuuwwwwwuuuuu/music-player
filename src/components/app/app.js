@@ -35,7 +35,11 @@ export default class App extends Component {
                 <div className="d-flex justify-content-between app">
                     <AsideBar showPlayList={this.state.showPlayList} onSelect={this.onSelectTrack}/>
                     <Main showPlayList={this.state.showPlayList}/>
-                    <PlayList onSelect={this.onSelectTrack} showPlayList={this.state.showPlayList} />
+                    <PlayList 
+                    onSelect={this.onSelectTrack} 
+                    showPlayList={this.state.showPlayList} 
+                    randomData={this.state.randomData}
+                    isRandom={this.state.isRandom}/>
                 </div>
                 <PlaySelection 
                     getIsRandom={this.getIsRandom} 

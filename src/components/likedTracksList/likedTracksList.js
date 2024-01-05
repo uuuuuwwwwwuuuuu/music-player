@@ -12,7 +12,6 @@ export default class LikedTracksList extends Component {
         getData()
             .then(data => this.setState({data}));
     }
-
     renderCard() {
         const {data} = this.state;
         return data.map((item) => {
