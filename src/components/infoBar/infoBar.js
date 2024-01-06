@@ -21,7 +21,7 @@ export default class InfoBar extends Component {
         if (boolean) {
             return (
                 <div className="d-flex justify-content-between px-3 mt-3">
-                    <button className="info_button_selected">Любимое</button>               
+                    <button className="info_button info_button_selected">Любимое</button>               
                     <button className="info_button">Плейлисты</button>           
                     <button className="info_button">Артисты</button>             
                 </div>

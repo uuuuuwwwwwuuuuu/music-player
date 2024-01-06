@@ -58,8 +58,8 @@ export default class LikedTracksList extends Component {
                                 <span className="track_artists">{artists}</span>
                             </div>
                         </div>
-                        <div className="play_list_controllers">
-                            <svg onClick={() => this.props.onDelete(id)} xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
+                        <button onClick={() => this.props.onDelete(id)} className="play_list_controllers">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
                             <g clipPath="url(#clip0_67_215)">
                                 <rect y="10.6066" width="15" height="2" rx="1" transform="rotate(-45 0 10.6066)"/>
                                 <rect x="1.41418" width="15" height="2" rx="1" transform="rotate(45 1.41418 0)"/>
@@ -70,7 +70,7 @@ export default class LikedTracksList extends Component {
                                 </clipPath>
                             </defs>
                             </svg> 
-                        </div>
+                        </button>
                     </div>
                 )
             }

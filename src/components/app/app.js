@@ -9,19 +9,19 @@ import getData from "../service/getData";
 export default class App extends Component {
     state = {
         trackId: 0,
-        data: null,
+        favoriteTrackList: null,
         showPlayList: null,
         randomData: null,
         isRandom: false,
-        dataClone: null
+        currentPlayList: null
     }
     
     componentDidMount() {
         getData()
-            .then(data => {
-                this.setState({data});
-                this.setState(({data}) => {
-                    const newArr = [...data];
+            .then(favoriteTrackList => {
+                this.setState({favoriteTrackList});
+                this.setState(({favoriteTrackList}) => {
+                    const newArr = [...favoriteTrackList];
                     this.shuffle(newArr);
                     return {randomData: newArr};
                 });
@@ -39,7 +39,7 @@ export default class App extends Component {
     onSelectTrack = (id, isTrackList) => {
         this.setState({id});
         if (isTrackList) {
-            this.setState({dataClone: this.state.data});
+            this.setState({currentPlayList: this.state.favoriteTrackList});
         }
     }
 
@@ -50,18 +50,18 @@ export default class App extends Component {
     getIsRandom = (isRandom) => {
         this.setState({isRandom});
         if (isRandom) {
-            this.setState({dataClone: this.state.randomData});
+            this.setState({currentPlayList: this.state.randomData});
         } else {
-            this.setState({dataClone: this.state.data});
+            this.setState({currentPlayList: this.state.favoriteTrackList});
         }
     }
 
     onDelete = (id) => {
-        this.setState(({dataClone}) => {
-            const index = dataClone.findIndex(element => element.id === id);
-            const newArr = [...dataClone.slice(0, index), ...dataClone.slice(index + 1)];
+        this.setState(({currentPlayList}) => {
+            const index = currentPlayList.findIndex(element => element.id === id);
+            const newArr = [...currentPlayList.slice(0, index), ...currentPlayList.slice(index + 1)];
 
-            return {dataClone: newArr}
+            return {currentPlayList: newArr}
         })
     }
 
@@ -70,26 +70,25 @@ export default class App extends Component {
     }
 
     render() {
-        const {showPlayList, data, dataClone, randomData, isRandom, id} = this.state;
+        const {showPlayList, favoriteTrackList, currentPlayList, isRandom, id} = this.state;
         return (
             <div className="d-flex flex-column justify-content-between app_wrapper">
                 <div className="d-flex justify-content-between app">
                     <AsideBar 
                         showPlayList={showPlayList} 
                         onSelect={this.onSelectTrack}
-                        data={data}/>
+                        data={favoriteTrackList}/>
                     <Main showPlayList={showPlayList}/>
                     <PlayList 
                         onSelect={this.onSelectTrack} 
                         showPlayList={showPlayList} 
-                        dataClone={dataClone}
+                        dataClone={currentPlayList}
                         isRandom={isRandom}
                         onDelete={this.onDelete}
                         currentId={id}/>
                 </div>
                 <PlaySelection 
-                    data={dataClone}
-                    randomData={randomData}
+                    data={currentPlayList}
                     showPlayList={this.onShowPlayList} 
                     id={id}
                     getIsRandom={this.getIsRandom} 
