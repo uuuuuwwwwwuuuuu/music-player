@@ -30,7 +30,7 @@ export default class InfoBar extends Component {
     }
 
     render() {
-        const {onSelect, buttonsBool, blockText, isRandom, randomData, data} = this.props;
+        const {onSelect, buttonsBool, blockText, isRandom, data, dataClone, onDelete, playList, currentId} = this.props;
         const buttons = this.renderButtons(buttonsBool);
 
         return (
@@ -46,12 +46,14 @@ export default class InfoBar extends Component {
                 {buttons}
                 <div className="info_bar_container_track_list">
                     <LikedTracksList 
-                        playList={this.props.playList} 
+                        playList={playList} 
                         height={this.state.height} 
                         onSelect={onSelect}
                         isRandom={isRandom}
-                        randomData={randomData}
                         data={data}
+                        onDelete={onDelete}
+                        dataClone={dataClone}
+                        currentId={currentId}
                         />
                 </div>
             </div>

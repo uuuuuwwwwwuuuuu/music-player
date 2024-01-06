@@ -24,7 +24,11 @@ export default class PlaySelection extends Component {
         } 
 
         if (data !== prevProps.data) {
-            this.setState({data});
+            if (data.length === 0) {
+                this.setState({data: null});
+            } else {
+                this.setState({data});
+            }
             this.setState({randomData});
         }
 
@@ -64,29 +68,30 @@ export default class PlaySelection extends Component {
 
     renderTrackInfo() {
         const {id, data, randomData, isRandom} = this.state;
-        const dataObj = isRandom ? randomData[id] : data[id];
+        const dataItem = data.filter(item => item.id === id)[0];
 
         return (
-            <>
-                <img src={dataObj.albumImg} alt="album" />
+            <div className="left_elements">                    
+                <img src={dataItem.albumImg} alt="album" />
                 <div className="left_elements_info">
-                    <span className="left_elements_title">{dataObj.title}</span>
-                    <span className="left_elements_artists">{dataObj.artists}</span>
+                    <span className="left_elements_title">{dataItem.title}</span>
+                    <span className="left_elements_artists">{dataItem.artists}</span>
                 </div>
-            </>
+            </div> 
         )
     }
 
     prevTrack = () => {
-        this.setState(({id}) => {
-            const oldId = id;
+        this.setState(({id, data}) => {
+            const index = data.findIndex(item => item.id === id)
             let newId = null;
 
-            if (oldId === 0) {
-                newId = this.state.data.length - 1;
+            if (index === 0) {
+                newId = data[this.state.data.length - 1].id;
             } else {
-                newId = oldId - 1;
+                newId = data[index - 1].id;
             }
+            this.props.getId(newId);
 
             return {id: newId}
         });
@@ -95,15 +100,16 @@ export default class PlaySelection extends Component {
     }
 
     nextTrack = () => {
-        this.setState(({id}) => {
-            const oldId = id;
+        this.setState(({id, data}) => {
+            const index = data.findIndex(item => item.id === id)
             let newId = null;
 
-            if (oldId >= this.state.data.length - 1) {
-                newId = 0;
+            if (index >= this.state.data.length - 1) {
+                newId = data[0].id;
             } else {
-                newId = oldId + 1;
+                newId = data[index + 1].id;
             }
+            this.props.getId(newId);
 
             return {
                 id: newId
@@ -113,9 +119,11 @@ export default class PlaySelection extends Component {
     }
 
     changeIsPlay = () => {
-        this.setState(({isPlay}) => {
-            return {isPlay: !isPlay};
-        });
+        if (this.state.data) {
+            this.setState(({isPlay}) => {
+                return {isPlay: !isPlay};
+            });
+        }
     }
     
     toggleIsRepeat = () => {
@@ -182,7 +190,7 @@ export default class PlaySelection extends Component {
         let url = null;
         if (data) {
             leftElements = this.renderTrackInfo();
-            url = isRandom ? randomData[id].music : data[id].music;
+            url = isRandom ? randomData[id].music : data.filter(item => item.id === id)[0].music;
         }
 
         const disablePlayClass = isPlay ? 'disable' : '';
@@ -194,9 +202,7 @@ export default class PlaySelection extends Component {
 
         return (
             <div className="play_selection">
-                <div className="left_elements">
-                    {leftElements}
-                </div>
+                {leftElements}
                 <div className="right_elements">
                     <div className="music_controllers">
                         <svg onClick={this.toggleIsRandom} className={activeRandomClass} xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">

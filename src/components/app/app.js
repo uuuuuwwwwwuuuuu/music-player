@@ -12,7 +12,8 @@ export default class App extends Component {
         data: null,
         showPlayList: null,
         randomData: null,
-        isRandom: false
+        isRandom: false,
+        dataClone: null
     }
     
     componentDidMount() {
@@ -35,8 +36,11 @@ export default class App extends Component {
         return array;
     }
 
-    onSelectTrack = (id) => {
+    onSelectTrack = (id, isTrackList) => {
         this.setState({id});
+        if (isTrackList) {
+            this.setState({dataClone: this.state.data});
+        }
     }
 
     onShowPlayList = (showPlayList) => {
@@ -45,10 +49,28 @@ export default class App extends Component {
 
     getIsRandom = (isRandom) => {
         this.setState({isRandom});
+        if (isRandom) {
+            this.setState({dataClone: this.state.randomData});
+        } else {
+            this.setState({dataClone: this.state.data});
+        }
+    }
+
+    onDelete = (id) => {
+        this.setState(({dataClone}) => {
+            const index = dataClone.findIndex(element => element.id === id);
+            const newArr = [...dataClone.slice(0, index), ...dataClone.slice(index + 1)];
+
+            return {dataClone: newArr}
+        })
+    }
+
+    getCurrentId = (id) => {
+        this.setState({id});
     }
 
     render() {
-        const {showPlayList, data, randomData, isRandom, id} = this.state
+        const {showPlayList, data, dataClone, randomData, isRandom, id} = this.state;
         return (
             <div className="d-flex flex-column justify-content-between app_wrapper">
                 <div className="d-flex justify-content-between app">
@@ -60,16 +82,18 @@ export default class App extends Component {
                     <PlayList 
                         onSelect={this.onSelectTrack} 
                         showPlayList={showPlayList} 
-                        randomData={randomData}
-                        data={data}
-                        isRandom={isRandom}/>
+                        dataClone={dataClone}
+                        isRandom={isRandom}
+                        onDelete={this.onDelete}
+                        currentId={id}/>
                 </div>
                 <PlaySelection 
-                    data={data}
+                    data={dataClone}
                     randomData={randomData}
                     showPlayList={this.onShowPlayList} 
                     id={id}
-                    getIsRandom={this.getIsRandom} />
+                    getIsRandom={this.getIsRandom} 
+                    getId={this.getCurrentId}/>
             </div>
         )
     }

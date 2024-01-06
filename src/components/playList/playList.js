@@ -2,7 +2,7 @@ import React from "react";
 import './playList.scss';
 import InfoBar from "../infoBar/infoBar";
 
-export default function PlayList({onSelect, showPlayList, data, isRandom, randomData}) {
+export default function PlayList({onSelect, showPlayList, data, dataClone, isRandom, onDelete, currentId}) {
     const calcPlayListHeight = () => {
         return document.body.clientHeight - 120;
     }
@@ -18,7 +18,9 @@ export default function PlayList({onSelect, showPlayList, data, isRandom, random
                 buttonsBool={false} 
                 blockText='Текущий плейлист'
                 isRandom={isRandom}
-                randomData={randomData}/>
+                onDelete={onDelete}
+                dataClone={dataClone}
+                currentId={currentId}/>
         </div>
     );
 }
