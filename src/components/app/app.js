@@ -3,19 +3,25 @@ import AsideBar from "../asideBar/asideBar";
 import Main from "../main/main";
 import PlaySelection from "../playSelection/playSelection";
 import './app.scss';
-import PlayList from "../playList/playList";
+import CurrentPlayList from "../currentPlayList/currentPlayList";
 import getData from "../service/getData";
+import ErrorMessage from "../errorMessage/errorMessage";
 
 export default class App extends Component {
     state = {
         trackId: 0,
         favoriteTrackList: null,
         showPlayList: null,
-        randomData: null,
+        randomTrackData: null,
         isRandom: false,
-        currentPlayList: null
+        currentPlayList: null,
+        error: false
     }
     
+    componentDidCatch() {
+        this.setState({error: true});
+    }
+
     componentDidMount() {
         getData()
             .then(favoriteTrackList => {
@@ -23,7 +29,7 @@ export default class App extends Component {
                 this.setState(({favoriteTrackList}) => {
                     const newArr = [...favoriteTrackList];
                     this.shuffle(newArr);
-                    return {randomData: newArr};
+                    return {randomTrackData: newArr};
                 });
             });
     }
@@ -50,7 +56,7 @@ export default class App extends Component {
     getIsRandom = (isRandom) => {
         this.setState({isRandom});
         if (isRandom) {
-            this.setState({currentPlayList: this.state.randomData});
+            this.setState({currentPlayList: this.state.randomTrackData});
         } else {
             this.setState({currentPlayList: this.state.favoriteTrackList});
         }
@@ -69,26 +75,35 @@ export default class App extends Component {
         this.setState({id});
     }
 
+    getNewPlayList = (newPlayList) => {
+        this.setState({currentPlayList: newPlayList});
+    }
+
     render() {
-        const {showPlayList, favoriteTrackList, currentPlayList, isRandom, id} = this.state;
+        const {showPlayList, favoriteTrackList, currentPlayList, isRandom, id, error} = this.state;
+        if (error) {
+            return <ErrorMessage message="Приложение не работает" />
+        }
+
         return (
             <div className="d-flex flex-column justify-content-between app_wrapper">
                 <div className="d-flex justify-content-between app">
                     <AsideBar 
                         showPlayList={showPlayList} 
                         onSelect={this.onSelectTrack}
-                        data={favoriteTrackList}/>
+                        favoriteTrackList={favoriteTrackList}/>
                     <Main showPlayList={showPlayList}/>
-                    <PlayList 
+                    <CurrentPlayList 
                         onSelect={this.onSelectTrack} 
                         showPlayList={showPlayList} 
-                        dataClone={currentPlayList}
+                        currentPlayList={currentPlayList}
                         isRandom={isRandom}
                         onDelete={this.onDelete}
-                        currentId={id}/>
+                        currentId={id}
+                        getNewPlayList={this.getNewPlayList}/>
                 </div>
                 <PlaySelection 
-                    data={currentPlayList}
+                    currentPlayList={favoriteTrackList}
                     showPlayList={this.onShowPlayList} 
                     id={id}
                     getIsRandom={this.getIsRandom} 

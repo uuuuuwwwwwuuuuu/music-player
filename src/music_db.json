@@ -27,6 +27,13 @@
             "albumImg": "/img/ne-slezai.jpeg",
             "music": "/music/ne-slezai.mp3",
             "id": "fdgfdghcv"
+        },
+        {
+            "title": "Под Звездопадом",
+            "artists":"Тима Беларуских",
+            "albumImg": "/img/pod-zvezdopadom.jpeg",
+            "music": "/music/pod-zvezdopadom.mp3",
+            "id": "gorepmwp"
         }
     ]
 }

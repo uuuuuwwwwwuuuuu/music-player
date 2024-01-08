@@ -1,10 +1,11 @@
 import React, {Component} from "react";
 import './infoBar.scss';
-import LikedTracksList from "../likedTracksList/likedTracksList";
+import InfoList from "../infoList/infoList";
 
 export default class InfoBar extends Component {
     state = {
-        height: 0
+        height: 0,
+        category: 'liked',
     }
 
     componentDidMount() {
@@ -17,22 +18,32 @@ export default class InfoBar extends Component {
         this.setState({height});
     }
 
+    setCategory = (e) => {
+        document.querySelectorAll('.info_button').forEach(item => {
+            if (item.classList.contains('info_button_selected')) {
+                item.classList.remove('info_button_selected')
+            } 
+        })
+        e.target.classList.add('info_button_selected');
+        this.setState({category: e.target.id});
+    }
+
     renderButtons(boolean) {
         if (boolean) {
             return (
                 <div className="d-flex justify-content-between px-3 mt-3">
-                    <button className="info_button info_button_selected">Любимое</button>               
-                    <button className="info_button">Плейлисты</button>           
-                    <button className="info_button">Артисты</button>             
+                    <button onClick={this.setCategory} id="liked" className="info_button info_button_selected">Любимое</button>               
+                    <button onClick={this.setCategory} id="playLists" className="info_button">Плейлисты</button>           
+                    <button onClick={this.setCategory} id="artists" className="info_button">Артисты</button>             
                 </div>
             )
         }
     }
 
     render() {
-        const {onSelect, buttonsBool, blockText, isRandom, data, dataClone, onDelete, playList, currentId} = this.props;
+        const {onSelect, buttonsBool, blockText, isRandom, favoriteTrackList, currentPlayList, onDelete, playList, currentId, getNewPlayList} = this.props;
         const buttons = this.renderButtons(buttonsBool);
-
+        
         return (
             <div className="info_bar d-flex flex-column justify-content-start">
                 <div className="info_bar_container">
@@ -45,15 +56,17 @@ export default class InfoBar extends Component {
                 </div>
                 {buttons}
                 <div className="info_bar_container_track_list">
-                    <LikedTracksList 
+                    <InfoList 
                         playList={playList} 
                         height={this.state.height} 
                         onSelect={onSelect}
                         isRandom={isRandom}
-                        data={data}
+                        favoriteTrackList={favoriteTrackList}
                         onDelete={onDelete}
-                        dataClone={dataClone}
+                        currentPlayList={currentPlayList}
                         currentId={currentId}
+                        getNewPlayList={getNewPlayList}
+                        category={this.state.category}
                         />
                 </div>
             </div>

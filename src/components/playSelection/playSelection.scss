@@ -7,134 +7,209 @@
     padding: 10px 30px;
     display: flex;
     justify-content: space-between;
-
+    transition: 0.3s all ease;
     button {
         background: transparent;
         border: none;
+        transition: 0.3s all ease;
         padding: 0;
     }
-}
 
-.left_elements {
-    display: flex;
-    color: #fff;
-    align-items: flex-end;
-    flex: 0 0 350px;
-
-    img {
-        width: 5rem;
-        border-radius: 5px;
-        margin-right: 30px;
+    .left_elements {
+        display: flex;
+        color: #fff;
+        transition: 0.3s all ease;
+        align-items: flex-end;
+        flex: 0 0 350px;
+    
+        .album_img {
+            width: 5rem;
+            border-radius: 5px;
+            transition: 0.3s all ease;
+            margin-right: 30px;
+        }
+    
+        .left_elements_info {
+            display: flex;
+            transition: 0.3s all ease;
+            flex-direction: column;
+        }
+    
+        .left_elements_title {
+            font-size: 16px;
+            transition: 0.3s all ease;
+            font-weight: 700;
+        }
+    
+        .left_elements_artists {
+            opacity: 0.7;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.3s all ease;
+            
+        }
     }
-
-    .left_elements_info {
+    
+    .right_elements {
         display: flex;
         flex-direction: column;
-    }
-
-    .left_elements_title {
-        font-size: 16px;
-        font-weight: 700;
-    }
-
-    .left_elements_artists {
-        opacity: 0.7;
-        font-size: 14px;
-        font-weight: 600;
-    }
-}
-
-.right_elements {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    height: 40px;
-    margin-top: 5px;
-
-    flex: 0 1 100%;
-    transition: 0.6s all ease;
+        justify-content: space-between;
+        align-items: center;
+        height: 40px;
+        margin-top: 5px;
     
-    .music_controllers {
-        button {
-            cursor: pointer;
-
-            &:not(:last-child) {
-                margin-right: 25px;
+        flex: 0 1 100%;
+        transition: 0.3s all ease;
+        
+        .music_controllers {
+            button {
+                cursor: pointer;
+    
+                &:not(:last-child) {
+                    margin-right: 25px;
+                }
+    
+                svg {
+                    fill: white;
+                    transition: 0.2s all ease;
+                }
+    
+                @media (hover:hover) {
+                    &:hover svg {
+                        fill: #E62C36;
+                    }
+                }
             }
+        
+            .active {
+                fill: #E62C36;
+            }
+        }
+    
+        .music_progress {
+            width: 100%;
+            height: 5px;
+            border-radius: 5px;
+            background: #919191;
+            cursor: pointer;
+            transition: 0.3s all ease;
+            
+    
+            &_bar {
+                height: 5px;
+                background-color: #fff;
+                display: flex;
+                border-top-left-radius: 5px;
+                border-bottom-left-radius: 5px;
+                width: 0;
+                justify-content: flex-end;
+                transition: 0.3s all ease;
 
-            svg {
-                fill: white;
+            }
+    
+            &_circle {
+                position: relative;
+                left: 5px;
+                bottom: 3px;
+                opacity: 0;
+                width: 0.9rem;
+                height: 0.9rem;
+                background-color: #fff;
+                border-radius: 100px;
                 transition: 0.2s all ease;
             }
-
+    
             @media (hover:hover) {
-                &:hover svg {
-                    fill: #E62C36;
+                &:hover .music_progress_circle {
+                    opacity: 1;
                 }
             }
         }
     
-        .active {
-            fill: #E62C36;
-        }
-    }
-
-    .music_progress {
-        width: 100%;
-        height: 5px;
-        border-radius: 5px;
-        background: #919191;
-        cursor: pointer;
-        transition: 0.6s all ease;
-
-
-        &_bar {
-            height: 5px;
-            background-color: #fff;
-            display: flex;
-            border-top-left-radius: 5px;
-            border-bottom-left-radius: 5px;
-            width: 0;
-            justify-content: flex-end;
-        }
-
-        &_circle {
-            position: relative;
-            left: 5px;
-            bottom: 3px;
-            opacity: 0;
-            width: 0.9rem;
-            height: 0.9rem;
-            background-color: #fff;
-            border-radius: 100px;
-            transition: 0.2s all ease;
-        }
-
-        @media (hover:hover) {
-            &:hover .music_progress_circle {
-                opacity: 1;
+    
+        .play_list_toggle_btn {
+            position: absolute;
+            right: 55px;
+            bottom: 55px;
+            fill: white;
+            cursor: pointer;
+            transition: 0.2s fill ease;
+            transition: 0.3s right ease;
+            transition: 0.3s bottom ease;
+    
+            @media (hover:hover) {
+                &:hover {
+                    fill: #E62C36;
+                }
             }
         }
     }
-
-
-    .play_list_toggle_btn {
-        position: absolute;
-        right: 55px;
-        bottom: 55px;
-        fill: white;
-        cursor: pointer;
-        transition: 0.2s all ease;
-
-        @media (hover:hover) {
-            &:hover {
-                fill: #E62C36;
-            }
-        }
+    
+    .disable {
+        display: none;
     }
 }
+    
+.play_selection_more_info {
+    width: 118rem;
+    height: 49rem;
+    background-color: #091E2A;
+    position: fixed;
+    margin-top: -245px;
+    margin-left: -590px;
+    top: 50%;
+    left: 50%;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 40px;
+    animation-name: fade-in;
+    animation-duration: 0.5s;
+    .left_elements {
+        flex: 0 0 420px;
+        width: 100%;
+        align-items: flex-start;
+        
+        .album_img {
+            flex: 0 0 400px;
+            border-radius: 15px;
+        }
 
-.disable {
-    display: none;
+        .left_elements_info {
+            flex: 1 0 200px;
+        }
+
+        .left_elements_title {
+            font-size: 32px;
+        }
+
+        .left_elements_artists {
+            font-size: 28px;
+        }
+
+        .left_elements_text {
+            height: 100%;
+        }
+
+    }
+
+    .right_elements {
+        flex: 0 0 40px;
+        .play_list_toggle_btn {
+            bottom: 28px;
+            right: 43px;
+        }
+    }
+
+}
+
+@keyframes fade-in {
+    from {
+        left: -50%;
+        opacity: 0;
+    } to {
+        left: 50%;
+        opacity: 1;
+    }
 }
