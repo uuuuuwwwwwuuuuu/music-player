@@ -11,7 +11,6 @@ export default class PlaySelection extends Component {
         isRandom: false,
         showPlayList: false,
         error: false,
-        moreInfo: false
     }
 
     componentDidCatch() {
@@ -71,28 +70,16 @@ export default class PlaySelection extends Component {
         }
     }
 
-    toggleMoreInfo = () => {
-        this.setState(({moreInfo}) => {
-            return {moreInfo: !moreInfo};
-        })
-    }
-
     renderTrackInfo() {
-        const {id, currentPlayList, moreInfo} = this.state;
+        const {id, currentPlayList} = this.state;
         const dataItem = currentPlayList.filter(item => item.id === id)[0];
-        const trackText = moreInfo ? (() => { return (
-            <div className="left_elements_text">
-                <h1>Текст трека...</h1>
-            </div>
-        )})() : null;
 
         return (
-            <div className="left_elements" onClick={this.toggleMoreInfo}>                    
+            <div className="left_elements">                    
                 <img className="album_img" src={dataItem.albumImg} alt="album" />
                 <div className="left_elements_info">
                     <span className="left_elements_title">{dataItem.title}</span>
                     <span className="left_elements_artists">{dataItem.artists}</span>
-                    {trackText}
                 </div>
             </div> 
         )
@@ -212,7 +199,7 @@ export default class PlaySelection extends Component {
     }
     
     render() {
-        const {currentPlayList, id, isPlay, isRepeat, isRandom, showPlayList, error, moreInfo} = this.state;
+        const {currentPlayList, id, isPlay, isRepeat, isRandom, showPlayList, error} = this.state;
 
         if (error) {
             return <ErrorMessage message='Не удалось запустить плейлист, попробуйте перезагрузить страницу' />
@@ -232,10 +219,8 @@ export default class PlaySelection extends Component {
         const disableShowPlayListClass = !showPlayList ? 'disable' : '';
         const activeShowPlayListClass = showPlayList ? 'disable' : '';
 
-        const playSelectionClassList = moreInfo ? 'play_selection play_selection_more_info' : 'play_selection';
-
         return (
-            <div className={playSelectionClassList}>
+            <div className='play_selection'>
                 {leftElements}
                 <div className="right_elements">
                     <div className="music_controllers">

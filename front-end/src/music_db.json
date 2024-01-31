@@ -34,6 +34,48 @@
             "albumImg": "/img/pod-zvezdopadom.jpeg",
             "music": "/music/pod-zvezdopadom.mp3",
             "id": "gorepmwp"
+        },
+        {
+            "title": "Навсегда",
+            "artists": "Nikitata",
+            "albumImg": "/img/navsegda.jpeg",
+            "music": "/music/navsegda.mp3",
+            "id": "gwgrthrthty"
+        }, 
+        {
+            "title": "Не слезай",
+            "artists": "Гнилая Лирика",
+            "albumImg": "/img/ne-slezai.jpeg",
+            "music": "/music/ne-slezai.mp3",
+            "id": "fdgfdghcv"
+        },
+        {
+            "title": "Под Звездопадом",
+            "artists":"Тима Беларуских",
+            "albumImg": "/img/pod-zvezdopadom.jpeg",
+            "music": "/music/pod-zvezdopadom.mp3",
+            "id": "gorepmwp"
+        },
+        {
+            "title": "Не слезай",
+            "artists": "Гнилая Лирика",
+            "albumImg": "/img/ne-slezai.jpeg",
+            "music": "/music/ne-slezai.mp3",
+            "id": "fdgfdghcv"
+        },
+        {
+            "title": "Под Звездопадом",
+            "artists":"Тима Беларуских",
+            "albumImg": "/img/pod-zvezdopadom.jpeg",
+            "music": "/music/pod-zvezdopadom.mp3",
+            "id": "gorepmwp"
+        },
+        {
+            "title": "Под Звездопадом",
+            "artists":"Тима Беларуских",
+            "albumImg": "/img/pod-zvezdopadom.jpeg",
+            "music": "/music/pod-zvezdopadom.mp3",
+            "id": "gorepmwp"
         }
     ]
 }
